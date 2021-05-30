@@ -1,0 +1,154 @@
+{
+  "version": 1,
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "defaultProject": "ashashop",
+  "schematics": {
+    "@nrwl/angular": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      },
+      "storybook-configuration": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/angular:application": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
+  },
+  "projects": {
+    "ashashop": {
+      "projectType": "application",
+      "root": "apps/ashashop",
+      "sourceRoot": "apps/ashashop/src",
+      "prefix": "ashainc",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/ashashop",
+            "index": "apps/ashashop/src/index.html",
+            "main": "apps/ashashop/src/main.ts",
+            "polyfills": "apps/ashashop/src/polyfills.ts",
+            "tsConfig": "apps/ashashop/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/ashashop/src/favicon.ico",
+              "apps/ashashop/src/assets"
+            ],
+            "styles": ["apps/ashashop/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/ashashop/src/environments/environment.ts",
+                  "with": "apps/ashashop/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "ashashop:build:production"
+            },
+            "development": {
+              "browserTarget": "ashashop:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ashashop:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/ashashop/src/**/*.ts",
+              "apps/ashashop/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/ashashop"],
+          "options": {
+            "jestConfig": "apps/ashashop/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "ashashop-e2e": {
+      "root": "apps/ashashop-e2e",
+      "sourceRoot": "apps/ashashop-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/ashashop-e2e/cypress.json",
+            "tsConfig": "apps/ashashop-e2e/tsconfig.e2e.json",
+            "devServerTarget": "ashashop:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ashashop:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/ashashop-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    }
+  }
+}
