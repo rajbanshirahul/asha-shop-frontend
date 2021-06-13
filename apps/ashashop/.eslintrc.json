@@ -16,7 +16,7 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "ashainc",
+            "prefix": "ashashop",
             "style": "camelCase"
           }
         ],
@@ -24,7 +24,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "ashainc",
+            "prefix": "ashashop",
             "style": "kebab-case"
           }
         ]
